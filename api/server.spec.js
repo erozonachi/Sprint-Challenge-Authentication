@@ -19,4 +19,15 @@ describe('server', () => {
       });
   });
 
+  it('[POST] /api/login WORKS', () => {
+
+    return request(server)
+      .post('/api/login')
+      .send({ username: 'james', password: '12345ABC' })
+      .expect(200)
+      .then(res => {
+        expect(res.body).toBeInstanceOf(Object);
+      });
+  });
+
 });
