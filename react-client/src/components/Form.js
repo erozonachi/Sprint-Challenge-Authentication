@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { FormContainer } from './styled-components/FormContainer';
 
 export default function Form(props) {
   const [user, setUser] = useState({
@@ -48,7 +49,7 @@ export default function Form(props) {
   }
 
   return(
-    <div>
+    <FormContainer>
       <h2>{
         props.type === 'register'?
         'Register ' : 'Login '
@@ -63,6 +64,6 @@ export default function Form(props) {
         <Link to='/login'>Already Registered!</Link> :
         <Link to='/register'>Not Registered User!</Link>
       }
-    </div>
+    </FormContainer>
   );
 }

@@ -24,7 +24,7 @@ export const FormContainer = styled.div`
 
     > input {
       outline: none;
-      padding: 5px;
+      padding: 10px;
       border: 1px solid blueviolet;
       color: blueviolet;
       border-radius: 10px;
@@ -33,8 +33,9 @@ export const FormContainer = styled.div`
     }
     > button {
       outline: none;
-      padding: 5px;
+      padding: 10px;
       border: none;
+      font-weight: bold;
       background-color: blueviolet;
       color: white;
       border-radius: 10px;
