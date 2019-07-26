@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-export default function Register(props) {
+export default function Form(props) {
   const [user, setUser] = useState({
     username: '',
     password: '',
@@ -25,13 +25,24 @@ export default function Register(props) {
     event.preventDefault();
 
     if(user.username.trim() && user.password.trim()) {
-      axios.post(`http://localhost:3300/api/register`, user)
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => {
-          console.log(err.message);
-        })
+      if(props.type === 'register') {
+        axios.post(`http://localhost:3300/api/register`, user)
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(err => {
+            console.log(err.message);
+          });
+        } else {
+          axios.post(`http://localhost:3300/api/login`, user)
+            .then(res => {
+              console.log(res.data);
+              localStorage.setItem('token', res.data.token);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+      }
     }
   }
 
