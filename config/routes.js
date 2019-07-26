@@ -12,32 +12,31 @@ module.exports = server => {
   server.get('/api/jokes', authenticate, getJokes);
 };
 
-async function register(req, res) {
+function register(req, res) {
   // implement user registration
-  try {
-    const { username, password } = req.body;
-    if(!username || username.trim() === '') {
-      return res.status(400)
-        .json({
-          message: 'Missing required username field'
-        });
-    }
-    if(!password || password.trim() === '') {
-      return res.status(400)
-        .json({
-          message: 'Missing required password field'
-        });
-    }
-    const hashedPassword = bcrypt.hashSync(password, 12);
-    const createdUser = usersModel.insert({
-      username,
-      password: hashedPassword
-    });
-
+  const { username, password } = req.body;
+  if(!username || username.trim() === '') {
+    return res.status(400)
+      .json({
+        message: 'Missing required username field'
+      });
+  }
+  if(!password || password.trim() === '') {
+    return res.status(400)
+      .json({
+        message: 'Missing required password field'
+      });
+  }
+  const hashedPassword = bcrypt.hashSync(password, 12);
+  usersModel.insert({
+    username,
+    password: hashedPassword
+  })
+  .then(createdUser => {
     res.status(201)
-      json(createdUser);
-      
-  } catch(error) {
+    .json(createdUser)
+  })
+  .catch(error => {
     if(error.errno === 19) {
       return res.status(400)
         .json({ message: 'Supplied username field already exists' });
@@ -46,7 +45,7 @@ async function register(req, res) {
       .json({
         error: 'Cannot complete user creation, try again'
       });
-  }
+  });
 }
 
 async function login(req, res) {
@@ -54,7 +53,7 @@ async function login(req, res) {
   try {
     const { username, password } = req.body;
 
-    const user = usersModel.getByUsername(username);
+    const user = await usersModel.getByUsername(username);
     if(bcrypt.compareSync(password, user.password)) {
       const payload = {
         sub: user.disposer,
