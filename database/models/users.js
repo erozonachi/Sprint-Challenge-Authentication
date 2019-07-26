@@ -13,4 +13,10 @@ module.exports = {
       .where({ id })
       .first();
   },
+
+  getByUsername: function(username) {
+    return db('users')
+      .where({ username })
+      .first();
+  },
 }
