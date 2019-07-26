@@ -47,10 +47,16 @@ export default function Form(props) {
   }
 
   return(
-    <form onSubmit={onSubmit}>
-      <input onChange={onChange} value={user.username} type='text' name='username' />
-      <input onChange={onChange} value={user.password} type='password' name='password' />
-      <button type='submit'>Submit</button>
-    </form>
+    <div>
+      <h2>{
+        props.type === 'register'?
+        'Register ' : 'Login '
+      }</h2>
+      <form onSubmit={onSubmit}>
+        <input onChange={onChange} value={user.username} type='text' name='username' />
+        <input onChange={onChange} value={user.password} type='password' name='password' />
+        <button type='submit'>Submit</button>
+      </form>
+    </div>
   );
 }

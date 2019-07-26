@@ -28,6 +28,7 @@ export default function Form(props) {
 
   return(
     <div>
+      <h2>Jokes</h2>
       { jokes.list? 
           <ul>{
             jokes.list.map(item => <li key={item.id}>{item.joke}</li>)
