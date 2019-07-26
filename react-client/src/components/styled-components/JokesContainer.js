@@ -5,7 +5,7 @@ export const JokesContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 500px;
+  max-width: 800px;
   width: 100%;
   margin: 0 auto;
   > h2 {

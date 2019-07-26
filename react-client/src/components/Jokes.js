@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { JokesContainer } from './styled-components/JokesContainer';
 
 export default function Form(props) {
   const [jokes, setJokes] = useState({
@@ -26,7 +27,7 @@ export default function Form(props) {
   }, []);
 
   return(
-    <div>
+    <JokesContainer>
       <h2>Jokes</h2>
       { jokes.list? 
           <ul>{
@@ -34,6 +35,6 @@ export default function Form(props) {
           }</ul> :
           <strong>Fetching Jokes...</strong>
       }
-    </div>
+    </JokesContainer>
   );
 }
