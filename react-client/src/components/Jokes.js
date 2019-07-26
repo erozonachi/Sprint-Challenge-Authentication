@@ -15,7 +15,6 @@ export default function Form(props) {
 
     enrichedAxios.get(`http://localhost:3300/api/jokes`)
       .then(res => {
-        console.log(res.data);
         setJokes(prevJokes => ({
           ...prevJokes,
           list: res.data

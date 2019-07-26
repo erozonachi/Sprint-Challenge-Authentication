@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Form(props) {
@@ -28,7 +29,7 @@ export default function Form(props) {
       if(props.type === 'register') {
         axios.post(`http://localhost:3300/api/register`, user)
           .then(res => {
-            console.log(res.data);
+            props.history.push('/login');
           })
           .catch(err => {
             console.log(err.message);
@@ -36,11 +37,11 @@ export default function Form(props) {
         } else {
           axios.post(`http://localhost:3300/api/login`, user)
             .then(res => {
-              console.log(res.data);
               localStorage.setItem('token', res.data.token);
+              props.history.push('/');
             })
             .catch(err => {
-              console.log(err);
+              console.log(err.message);
             });
       }
     }
@@ -57,6 +58,11 @@ export default function Form(props) {
         <input onChange={onChange} value={user.password} type='password' name='password' />
         <button type='submit'>Submit</button>
       </form>
+      <br/>
+      {props.type === 'register'? 
+        <Link to='/login'>Already Registered!</Link> :
+        <Link to='/register'>Not Registered User!</Link>
+      }
     </div>
   );
 }

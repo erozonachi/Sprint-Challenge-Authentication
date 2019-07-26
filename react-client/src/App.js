@@ -1,29 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import './App.css';
 import Form from './components/Form';
 import Jokes from './components/Jokes';
 
 function App() {
   return (
-    <div className="App">
-      <Form type='regis' />
-      <Jokes />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Route 
+        exact
+        path='/'
+        render={props => {
+          if (localStorage.getItem('token')) {
+            return (
+              <Jokes {...props} />
+            );
+          } else {
+            return <Redirect to='/register' />
+          }
+        }}
+      />
+      <Route 
+        path='/register'
+        render={props => <Form {...props} type='register' />}
+      />
+      <Route 
+        path='/login'
+        render={props => <Form {...props} type='login' />}
+      />
+    </Router>
   );
 }
 
