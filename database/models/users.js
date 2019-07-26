@@ -6,4 +6,11 @@ module.exports = {
       .insert(user)
       .then(([ id ]) => this.getById(id));
   },
+
+  getById: function(id) {
+    return db('users')
+      .select('id', 'username')
+      .where({ id })
+      .first();
+  },
 }
