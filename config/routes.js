@@ -1,5 +1,6 @@
 const axios = require('axios');
 const bcrypt = require('bcryptjs');
+const usersModel = require('../database/models/users');
 
 const { authenticate } = require('../auth/authenticate');
 
@@ -9,8 +10,41 @@ module.exports = server => {
   server.get('/api/jokes', authenticate, getJokes);
 };
 
-function register(req, res) {
+async function register(req, res) {
   // implement user registration
+  try {
+    const { username, password } = req.body;
+    if(!username || username.trim() === '') {
+      return res.status(400)
+        .json({
+          message: 'Missing required username field'
+        });
+    }
+    if(!password || password.trim() === '') {
+      return res.status(400)
+        .json({
+          message: 'Missing required password field'
+        });
+    }
+    const hashedPassword = bcrypt.hashSync(password, 12);
+    const createdUser = usersModel.insert({
+      username,
+      password: hashedPassword
+    });
+
+    res.status(201)
+      json(createdUser);
+      
+  } catch(error) {
+    if(err.errno === 19) {
+      return res.status(400)
+        .json({ message: 'Supplied username field already exists' });
+    }
+    res.status(500)
+      .json({
+        error: 'Cannot complete user creation, try again'
+      });
+  }
 }
 
 function login(req, res) {
